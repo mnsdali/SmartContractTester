@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    
+   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/floatingPlaceholder.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/scalediv.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/console_cfg.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/deployed.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/selectVue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auditor.css') }}">
+    
+
+    <title>{% block headTitle %} RemixIDE 2.0 {% endblock %}</title>
+  </head>
+
+  <body>
+    <a href="/" class="logoHyperLinkg">
+      <img src="../static/img/cat.png" alt="Logo" class="logo">
+    </a>
+    <h1 style="text-align: center;font-weight: 400; padding-top: 100px;">
+        <span class="test-text">TEST</span>
+        <span style="color:white" class="abcd">YOUR SMART CONTRACT</span>
+    </h1>
+    {% block mainContent %}
+    <p class="mt-6" style="text-align:center;font-weight: 200; padding-top:40px ">
+        <span style=" color:rgb(89, 94, 104);font-family: 'Source Code Pro', monospace; letter-spacing: 0px " class="abcd ">Let's start by</span>
+        <span class="test-text2 text-gradient-green">importing</span>
+        <span style="color:rgb(89, 94, 104) ;font-family: 'Source Code Pro', monospace;letter-spacing: 0px;" class="abcd ">it</span>
+    </p>
+    
+    <div class="rounded-rectangle my-4">
+        <form  action="/compiled" method="post" enctype="multipart/form-data" >
+        <div class="row justify-content-center align-items-center mt-2">
+            <div class="col-6 custom-file">
+                <input type="file" class="custom-file-input form-control" accept=".sol" name="file" id="fileInput" multiple max="1" onchange="handleFileSelect(event)" required />
+                <label class="custom-file-label" for="fileInput">Choose</label>
+            </div>
+        </div>
+        
+        <!-- This appears after selecting a file-->
+        <div class="row justify-content-center align-items-center my-4">
+            <div class="col-auto-auto">
+                <div class="rectangle justify-content-center align-items-center" style=" display:none; color:white; " id="fileArea">
+                    <div id="selectedFile" style="text-align:center; ">
+                      
+                    </div>
+                </div>
+                <input type="text" id="inform" name="fileName" hidden/>
+                <div id="contractDetails"  style="display: none; text-align:center; color:white; padding-top: 10%" >
+
+                  
+                  
+                    <p style="font-family: 'Source Code Pro', monospace;font-size: 2em;font-weight: bold;margin: 0;" id="hooray-text">
+                      <span id="horrayBehaviour"  >Hooray! Let's start cookin' </span> </p>
+                      <div id="image-container">
+                        <img id="hooray-image" src="../static/img/oh-yeah.gif" alt="Image">
+                      </div>
+                     <!-- COMPILING BUTTON STARTS -->
+                
+                    <button type="submit" class="mt-4 btn btn-view" name="compileBtn"  id="compileBtn">
+                        <svg   class="iconBehaviour" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                        </svg> Compile
+                    </button>
+                    <!-- COPILING BUTTON ENDS -->
+                    <!-- AUDITING BUTTON STARTS -->
+                    <button  type="button" class="mt-4 btn btn-view" name="auditBtn"  id="auditBtn">
+                    
+                     
+                      <svg   class="iconBehaviour" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                          <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                          <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                      </svg> Audit
+                    </button>
+                    <div id="image-container3">
+                        <img id="audit-image" src="../static/img/nyan-cat-nyan.gif" alt="Image">
+                      </div>
+                    
+                  <!-- AUDITING BUTTON ENDS -->
+                    <div id="image-container2">
+                      <img id="compile-deploy-image" src="../static/img/compile-deploy-cat.gif" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endblock %}
+   
+
+    {% block Auditor%}
+      <!-- content begin -->
+      
+        <section class="almightyGreen" id="auditorContent">
+            <div class="container z-index-1000">
+                <div class="row">
+                    <div class="col-md-12 text-center section-title">
+                        <h2>Smart Contract Auditor</h2>
+                        <div class="space-border"></div>
+                    </div>
+                    <div class="col-md-8 offset-md-2 text-center text-light">
+                        <p>An AI-powered Solidity Smart Contract Auditor that uses AI to analyze and audit smart contract code, 
+                            finds errors and vulnerabilities, and provides detailed reports for secure and error-free smart contracts. 
+                        
+                    </p>
+                        <p>Please note that this tool is currently in beta testing and should not be relied upon for official auditing purposes. 
+                            <br>Use it at your own discretion.</p>
+                    </div>
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="contact_form_wrapper">
+                            <form id="audit_form" class="form-border">
+                                <div class="text-center">
+                                    <div class="form__group field">
+                                        <textarea name="message" id="question-input" class="form__field" value=""></textarea>
+                                        <label for="message" class="form__label">your smart contract code goes here...</label>
+                                    </div>
+                                   
+                                </div>
+
+
+                                <div class="row text-center my-3">
+                                        
+                                    <div class="mx-auto">
+                                            <button id="submit-button" class="btn btn-info btn-view">Audit</button>
+                                       
+                                            <button id="clear-button" class="btn btn-outline-light">Clear</button>
+                                    </div>
+                                 
+                                </div>
+
+                                <div id="response-chat-container" class="container response-container" >
+                                    <div id="loading-container" >
+                                        <img  id="loading-image"  src="../static/img/loading.gif" alt="loading" >
+                                    </div>
+                                    <div class="mt50  justified-text">
+                                        <div id="chat-container">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        
+        </section>
+
+    
+    {% endblock%}
+    {% block alertsBlock %}
+
+      {% with messages = get_flashed_messages( with_categories=true ) %}
+        
+          {% if messages %}
+              {% for category, message in messages %} 
+              <div class="container">
+          
+                  {% if category == "error" %}
+                      <div class="alert alert-danger alert-dismissable fade show" role="alert"> 
+                          {{ message }}
+                          <button type="button" class="close" data-dismiss="alert">
+                              <span aria-hidden="true" >&times; </span>
+                          </button>
+                      </div>
+                  
+                  {% elif category == "success" %}
+                      <div class="alert alert-success alert-dismissable fade show" role="alert"> 
+                          {{ message }}
+                          <button type="button" class="close" data-dismiss="alert">
+                              <span aria-hidden="true" >&times; </span>
+                          </button>
+                      </div>
+                  {%endif%}
+
+                </div>
+                
+
+              {% endfor%}
+          {% endif %}
+
+      {% endwith %}
+
+    {% endblock %}
+    
+   
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- to import javascript file "index.js" from static folder -->
+    <script>
+      type = "text/javascript";
+      src = "{{ url_for('static', filename='index.js') }}";
+    </script>
+    <!-- <script src="{{ url_for('static', filename='js/handleContractFunctions.js') }}"></script> -->
+
+    <script>
+
+        /*function handleFileSelect(event) {
+            var files = event.target.files;
+            var fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+              var fileListItem = document.createElement('input');
+              var removeButton = document.createElement('button');
+              removeButton.innerHTML = 'Remove';
+              removeButton.onclick = function() {
+                fileInput.value = '';
+                fileList.removeChild(fileListItem);
+                fileList.removeChild(removeButton);
+              };
+              fileListItem.value = file.name;
+              fileListItem.readOnly = true;
+              fileListItem.id= 'fileName'
+              fileListItem.name = 'fileName'
+              fileList.appendChild(fileListItem);
+              fileList.appendChild(removeButton);
+              
+            }
+          }*/
+
+          
+    </script>
+
+    <script>function showTooltip(flag) {
+      switch (flag) {
+        case 'compile':
+          document.getElementById("compileTip").classList.remove("hidden");
+          break;
+        case 'audit':
+          document.getElementById("auditTip").classList.remove("hidden");
+          break;
+          
+      }
+    }
+    function hideTooltip(flag) {
+      switch (flag) {
+        case 'compile':
+          document.getElementById("compileTip").classList.add("hidden");
+          break;
+        case 'audit':
+          document.getElementById("auditTip").classList.add("hidden");
+          break;
+          
+      }
+    }
+    </script>
+
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    
+    <!-- <script src="{{ url_for('static', filename='js/handleContractFunctions.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='js/manageInputFile.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/restrictInputs.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auditAPI.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sweetalert2.all.min.js') }}"></script>
+    
+  </body>
+</html>
+
+
+
+
+ <!-- <form class="form-inline my-4" action="/compiled" method="post" enctype="multipart/form-data">
+        <div class="container" align="center">
+            <div class="row justify-content-md-center">
+            
+                <div class="col-6 custom-file">
+                    <input type="file" class="custom-file-input form-control" accept=".sol" name="file" id="fileInput" multiple max="1" onchange="handleFileSelect(event)" required />
+                    <label class="custom-file-label" for="fileInput" style="font-size:16px;">  Choose your smart contract... </label>
+                    
+                </div>
+
+                <div class="col"> 
+                    <button type="submit" class="btn btn-outline-dark" name="compileBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                          </svg> Compile
+                    </button>
+
+                </div>
+            </div>
+            <div id="fileList"></div>
+            
+        </div>
+    </form> -->
+
+
+    

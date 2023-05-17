@@ -1,0 +1,46 @@
+{
+  "coverage": {
+    "Voting": {
+      "branches": {
+        "Voting.totalVotesFor": [0, 1, 1],
+        "Voting.validCandidate": [1, 0, 1],
+        "Voting.voteForCandidate": [0, 1, 1]
+      },
+      "statements": {
+        "Voting.totalVotesFor": [1, 2],
+        "Voting.validCandidate": [2, 3],
+        "Voting.voteForCandidate": [1, 2]
+      },
+      "totals": {
+        "branches": [1, 2, 3],
+        "statements": [4, 7]
+      }
+    }
+  },
+  "highlights": {
+    "branches": {
+      "Voting": {
+        "0": [
+          [1401, 1434, "orange", ""],
+          [1876, 1905, "orange", ""],
+          [1663, 1696, "orange", ""]
+        ]
+      }
+    },
+    "statements": {
+      "Voting": {
+        "0": [
+          [1213, 1233, "green", ""],
+          [1393, 1435, "green", ""],
+          [1441, 1472, "red", ""],
+          [1917, 1928, "red", ""],
+          [1859, 1862, "green", ""],
+          [1948, 1960, "green", ""],
+          [1655, 1697, "green", ""],
+          [1703, 1732, "red", ""]
+        ]
+      }
+    }
+  },
+  "sha1": {}
+}

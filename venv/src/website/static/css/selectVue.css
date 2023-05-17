@@ -1,0 +1,58 @@
+:root {
+    --background-gradient: linear-gradient(30deg, #8a12f3 30%, #f10f8f);
+    --glass: rgba(255, 255, 255, 0.2);
+    --glass-icon: rgba(255, 255, 255, 0.3);
+    --option: #8a12f3;
+}
+
+select {
+    /* Reset Select */
+    appearance: none;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background: var(--background-gradient);
+   
+    cursor: pointer;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+    display: none;
+}
+
+/* Custom Select wrapper */
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+}
+
+/* Arrow */
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #ffffff;
+    transition: .25s all ease;
+    pointer-events: none;
+}
+
+/* Transition */
+.select:hover::after {
+    color: #f10f8f;
+}
+
+option{
+    color: inherit;
+    background-color: var(--option);
+}

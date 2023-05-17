@@ -1,0 +1,10 @@
+eth-brownie
+web3
+flask
+flask-marshmallow
+Flask-RESTful
+Flask-Session
+Jinja2
+py-solc-x
+node
+
