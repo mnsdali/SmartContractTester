@@ -30,13 +30,26 @@ proj = project.load(brownie_path, name=brownieName)
 
 scripts_path = os.path.join(brownie_path, 'scripts')
 ##########
+# {
+#   "inputs": [
+#     { "internalType": "bytes32", "name": "candidate", "type": "bytes32" }
+#   ],
+#   "name": "totalVotesFor",
+#   "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+#   "stateMutability": "view",
+#   "type": "function"
 
+# sCtype = [bytes32 , uint, String]
+# }functProps
+
+# [{'accountIndex': '0'}, {'input0': 'dali'}] sc_data  
 #################
 def fetchCallableInputs(functProps, sc_data):
     result = []
     inputIdx = 0
-    
+    print(sc_data)
     for query in sc_data:
+        if (inputIdx == len(functProps['inputs'])): break;
         scType = functProps['inputs'][inputIdx]['type']
         for val in query.values():
             if '[]' in scType:
@@ -61,6 +74,7 @@ def fetchCallableInputs(functProps, sc_data):
 
         inputIdx+=1
     return result
+
 #################
 def fetchConstructor(abi):
     constructorInputs = []
@@ -160,10 +174,10 @@ def compilationPhase():
             abi = json.dumps(proj._build.get(compiledContractName)['abi'])
             loaded_abi= json.loads(abi)
 
-            
+            session['abi'] = loaded_abi
             
             flash("the smart contract has been compiled successfully and is ready for deployment!", category="success")
-            return render_template("compile.html", session=session, abi=loaded_abi)  
+            return render_template("compile.html", session=session, abi = loaded_abi)  
     else:
         return render_template("base.html")
     
@@ -190,7 +204,7 @@ def deploymentPhase():
                 globalVars.contractsInstancesMap[contractName] = run('deploy.py', args=(contractName, globalVars.owner, constructorInputs))
 
                 accs = [(globalVars.accounts[i].address, (globalVars.accounts[i].balance() *1e-18)) for i in range(10)]
-
+                session['accs'] = accs
                 flash("the smart contract has been deployed successfully", category="success" )        
                 return render_template("deployed.html", abi=loaded_abi, accs=accs)
         
@@ -209,7 +223,9 @@ def process_sContract():
         tx = None
         #here we will get the function from deployed smart contract instance
         # sContractInstance.func(inp)
-        callFunction = getattr(globalVars.contractsInstancesMap[contractName], sc_data[0]["name"])
+        print(sc_data)
+        callFunction = getattr(
+            globalVars.contractsInstancesMap[contractName], sc_data[0]["name"])
 
         if len(sc_data[0]["inputs"]) == 0:  #this is a function that doesn't contain any input
             
@@ -226,18 +242,18 @@ def process_sContract():
                     
                     results = {
                         "type": "transaction",
-                                    "tx_hash" : tx.txid,
-                                    "nonce" : tx.nonce,
-                                    "block_number" : tx.block_number,
-                                    "gas_limit" : tx.gas_limit,
-                                    "gas_price" : tx.gas_price,
-                                    "gas_used" : tx.gas_used,
-                                    "receiver" : tx.receiver,
-                                    "sender" : tx.sender.address,
-                                    "status" : tx.status,
-                                    "timestamp" : tx.timestamp,
-                                    "value": tx.value,
-                                    "contractBalance": globalVars.contractsInstancesMap[contractName].balance()/1e18
+                        "tx_hash" : tx.txid,
+                        "nonce" : tx.nonce,
+                        "block_number" : tx.block_number,
+                        "gas_limit" : tx.gas_limit,
+                        "gas_price" : tx.gas_price,
+                        "gas_used" : tx.gas_used,
+                        "receiver" : tx.receiver,
+                        "sender" : tx.sender.address,
+                        "status" : tx.status,
+                        "timestamp" : tx.timestamp,
+                        "value": tx.value,
+                        "contractBalance": globalVars.contractsInstancesMap[contractName].balance()/1e18
                     }
                     
                     
@@ -248,18 +264,18 @@ def process_sContract():
                     
                     results = {
                         "type": "transaction",
-                                    "tx_hash" : tx.txid,
-                                    "nonce" : tx.nonce,
-                                    "block_number" : tx.block_number,
-                                    "gas_limit" : tx.gas_limit,
-                                    "gas_price" : tx.gas_price,
-                                    "gas_used" : tx.gas_used,
-                                    "receiver" : tx.receiver,
-                                    "sender" : tx.sender.address,
-                                    "status" : tx.status,
-                                    "timestamp" : tx.timestamp,
-                                    "value": tx.value,
-                                    "contractBalance": globalVars.contractsInstancesMap[contractName].balance()/1e18
+                        "tx_hash" : tx.txid,
+                        "nonce" : tx.nonce,
+                        "block_number" : tx.block_number,
+                        "gas_limit" : tx.gas_limit,
+                        "gas_price" : tx.gas_price,
+                        "gas_used" : tx.gas_used,
+                        "receiver" : tx.receiver,
+                        "sender" : tx.sender.address,
+                        "status" : tx.status,
+                        "timestamp" : tx.timestamp,
+                        "value": tx.value,
+                        "contractBalance": globalVars.contractsInstancesMap[contractName].balance()/1e18
                     }
                
             except VirtualMachineError as e:
@@ -276,16 +292,21 @@ def process_sContract():
             
             try:
                 if sc_data[0]["stateMutability"] in ["view","pure" ]: 
-                    itms = fetchCallableInputs(sc_data[0],sc_data[1:])
-                    print(itms)
+                    itms = fetchCallableInputs(sc_data[0],sc_data[2:])
+                    #print(itms)
                     results = {"type": "call"}
                     out = callFunction(*itms) 
                     
 
                 elif sc_data[0]["stateMutability"] == "nonpayable" :
                     itms = fetchCallableInputs(sc_data[0],sc_data[2:])
-                    print(itms)
-                    tx= callFunction(*itms, { 'from' : globalVars.accounts[int(sc_data[1]['accountIndex'])]})
+                    #print(itms)
+                    print(globalVars.accounts[int(sc_data[1]['accountIndex'])], " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    tx= callFunction(*itms, 
+                                     { 'from' : globalVars.accounts[ int(sc_data[1]['accountIndex']) ]
+                                      
+                                      }
+                                     )
                                          
                     
 
@@ -356,6 +377,7 @@ def process_sContract():
 
 
 
+
 @views.route('/process_testGeneration', methods=['POST', 'GET'])
 def processTestGenerationPhase():
     global proj
@@ -398,7 +420,9 @@ def processTestGenerationPhase():
 
 
 
-
+@views.route('/processFunctions')
+def processFuncs():
+    return render_template("functions.html", abi = session["abi"], accs = session['accs'])
 
 
 
