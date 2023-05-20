@@ -6,94 +6,221 @@
 
 
 <p class="mt-6" style="text-align:center;font-weight: 200; padding-top:40px; margin-bottom: -3rem; ">
-    <span style=" color:rgb(89, 94, 104);font-family: 'Source Code Pro', monospace; letter-spacing: 0px " class="abcd ">your contract just landed, time to&nbsp; </span>
-    <span class="test-text2 text-gradient-purple "> mess&nbsp;</span>
-    <span style="color:rgb(89, 94, 104) ;font-family: 'Source Code Pro', monospace;letter-spacing: 0px;" class="abcd ">with it !</span>
+    <span class="abcd subtitle">your contract just landed, time to&nbsp; </span>
+    <span class="test-text2  "> mess&nbsp;</span>
+    <span  class="abcd subtitle">with it !</span>
 </p>
 
-<div class="d-flex " style="margin : auto; text-align:center; margin-top: 5rem;"> 
-    <div class="rounded-rectangle-functions rectangle-payable-props mr-1" 
-        id="paymentContainer" 
-        
-    >
-        <h5 class="test-text2 text-gradient-purple" style="font: weight 20px; font-size:1rem; margin-top: 3%"> Transaction Details </h5>
-        
-        <div class="container func-elem-props scaled" style="margin-left: -7%;">
-            
-            <div class="select">
-            <select class="select-style" id="accountID" name="account">
-                {% for i in range(10) %}
-                <option value="{{i}}">   {{accs[i][0][:15]}} ... ({{accs[i][1]}} eth) </option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="input-block mx-auto d-flex" style="margin-top: 5%">
-                <div>
-                    <input class="input-box" type="number" id="amountID" name="value" spellcheck="false" required>
+
+<div class="margin-y-section d-flex mx-4">
+<section class="almightyBlack" style="height:54rem">
+    <h5 class="test-text2 section-title text-align center" style="font: weight 20px; font-size:2rem; margin-bottom: 3%; "> Manual Testing Features </h5>
+    
+    <div class="scrollable-frame">
+        <!-- Content inside the scrollable frame -->
+        <div class="hoverable">
+            <div
+                    id="paymentContainer"    
+                >
+                    <h5 class="test-text2 text-gradient-purple" style="font: weight 20px; font-size:1rem; margin-top: 3%"> Transaction Details </h5>
                     
-                    <span class="placeholder">
-                        Amount
-                    </span>
-                </div>
-                <div class="select">
-                <select  class="select-style" id="currencyID" name="currencyUNIT">
-                    <option selected value="wei">      Wei    </option>
-                    <option value="baggage">  Kwei (baggage)  </option>
-                    <option value="lovelace"> Mwei (lovelace) </option>
-                    <option value="shannon">  Gwei (shannon)  </option>
-                    <option value="szabo">    Twei (szabo)    </option>
-                    <option value="finney">   Pwei (finney)   </option>
-                    <option value="ether">    Ether           </option>
-                </select>
+                    <div class="container func-elem-props scaled d-flex" style="margin:auto">
+                        
+                        <div class="select">
+                        <select class="select-style" id="accountID" name="account">
+                            {% for i in range(10) %}
+                            <option value="{{i}}">   {{accs[i][0][:15]}} ... ({{accs[i][1]}} eth) </option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                        <div class="select">
+                            <select  class="select-style" id="currencyID" name="currencyUNIT">
+                                <option selected value="wei">      Wei    </option>
+                                <option value="baggage">  Kwei (baggage)  </option>
+                                <option value="lovelace"> Mwei (lovelace) </option>
+                                <option value="shannon">  Gwei (shannon)  </option>
+                                <option value="szabo">    Twei (szabo)    </option>
+                                <option value="finney">   Pwei (finney)   </option>
+                                <option value="ether">    Ether           </option>
+                            </select>
+                            </div>
+                        <div class="input-block mx-auto d-flex mx-4" >
+                            <div>
+                                <input class="input-box" type="number" id="amountID" name="value" spellcheck="false" required>
+                                
+                                <span class="placeholder">
+                                    Amount
+                                </span>
+                            </div>
+                           
+                        </div>
+                        
+                    </div>
+            
                 </div>
             </div>
+            <hr>
+            
+        <div class="hoverable">
+        <div id="contractBalance" class="test-text2 " style="font-size: medium; margin-top: 1rem; color:aliceblue !important;">
+            Contract Balance: 
+        </div>
+        </div>
+        
+        <hr>
+        
+        
+            
+        
+            {% set nbQueries = namespace(value=0) %}
+        
+            {% for query in abi %}
+            {% if query["type"] == "function" %}
+        
+            {% set qID = "qID"~ nbQueries.value %}
+            <div class="hoverable  py-4 scaled" id="{{qID}}">
+            
+        
+        
+        
+                {% for input in query["inputs"] %}
+        
+                {% set inpName = input["name"] %}
+                {% set inputlbl =input["type"] ~ " " ~ inpName %}
+        
+                <div class="row func-elem-props">
+        
+                    <div class="input-block mx-auto">
+                        {% if "[]" in input['type'] %}
+                        <input class="input-box arr" type="text" id="{{inpName}}" name="{{inpName}} " spellcheck="false" required>
+                        
+                        {% else %}
+                        <input class="input-box arr" type="text" id="{{inpName}}" name="{{inpName}} " spellcheck="false" required>
+                        {%endif%}
+                        <span class="placeholder">
+                            {{inputlbl}}
+                        </span>
+                    </div>
+        
+                </div>
+        
+                {% endfor %}
+                {% set btndiv = "btn"~query["name"] %}
+                <script>
+                    var container = document.getElementById('{{qID}}');
+                </script>
+                <div class="row func-elem-props" id="{{btndiv}}">
+        
+                    {% if query["stateMutability"] == "view"%}
+                        <script>
+                            container.classList.add("rectangle-view-props");
+                        </script>
+                    {% set btnColor = "btn btn-info btn-view"%}
+                    {% elif query["stateMutability"] == "nonpayable"%}
+                        <script>
+                            container.classList.add("rectangle-nonpayable-props");
+                        </script>
+                    {% set btnColor = "btn btn-warning btn-nonpayable"%}
+                    {% elif query["stateMutability btn-payable"] == "payable" %}
+                         <script>
+                            container.classList.add("rectangle-payable-props");
+                         </script>
+                    {% set btnColor = "btn btn-danger"%}
+                    {% endif%}
+        
+                    {% set btnID = query["name"]%}
+        
+                    {% if query["stateMutability btn-payable"] == "payable" %}
+                        <button class="{{btnColor}} func-elem-props" type="button" id="{{btnID}}"
+                            onclick="handlePayableFunction('{{qID}}','{{btnID}}','{{btndiv}}')">
+                        {{query["name"]}}
+                        </button>
+                    {% else %}
+                    <button class="{{btnColor}} func-elem-props" type="button" id="{{btnID}}"
+                        onclick="handleSmartContractFunction('{{qID}}','{{btnID}}','{{btndiv}}')">
+                        {{query["name"]}}
+                    </button>
+                    {%endif%}
+                   
+                </div>
+        
+        
+            </div>
+           
+        
+            <hr>
+        
+        
+        {% set nbQueries.value = nbQueries.value +1 %}
+        
+        {%endif%}
+        {% endfor %}
+        
+        <!-- Add more content here -->
+      </div>
+      <hr>
+    <div class="container  hoverable">
+        <div class="form-outline w-100 mb-4">
+            <label class="form-label" for="log">console</label>
+            <textarea class="form-control consoleConfig" id="log" rows="10" readonly></textarea>
             
         </div>
-
     </div>
-    <div class="rounded-rectangle-functions rectangle-view-props ml-1" 
-         style="padding-top:2rem; padding-bottom:2rem"
-    >
-        <h5 class="test-text2 text-gradient-green" style="font: weight 20px; font-size:1rem; margin-top: 3%"> Additional Testing Features </h5>
-        <div class="container func-elem-props scaled d-flex" style="margin:auto; margin-left: -12%">
-            
+    
+    <!-- <iframe src="/processFunctions"  
+    style="border:none; width: 100%; height: 20rem; border-radius: 15px; " 
+    title="Iframe Example">   
+
+    </iframe> -->
+
+   
+   
+    
+</section>
+<section class="almightyBlack" style="height:54rem">
+    <h5 class="test-text2 section-title mb-2" style="font: weight 20px; font-size:2rem; margin-bottom: 3%;"> Fuzzing Unit Testing Features </h5>
+    <div class="hoverable">        
+        <div  class="py-4 px-4">
+           
+            <div style="margin:auto" class="d-flex justify-content-center">
             <div >
-                <button class="btn btn-info btn-view" type="button" id="genereteTestTemplate"
+                <button class="btn btn-dark" type="button" id="genereteTestTemplate"
                     onclick="generateTestTemplate()">
                     BlackBox Fuzzing <p>+</p> Test Template
                 </button>
             </div>
             <div class="ml-3" style="display : none" id="checkNewTestCoverage" >
                 <button 
-                    class="btn btn-info btn-view" data-toggle="modal" data-target=".test-coverage-modal"
+                    class="btn btn-dark" data-toggle="modal" data-target=".test-coverage-modal"
                     onclick="checkTestCoverage()"
                 >
-                    Generate New Test Coverage
+                    Generate <p>New Test</p> Coverage
                 </button>
             </div>
 
             <div class="ml-3" style="display : none" id="checkPreviousTestCoverage" >
                 <button 
-                    class="btn btn-info btn-view" data-toggle="modal" data-target=".test-coverage-modal"
+                    class="btn btn-dark" data-toggle="modal" data-target=".test-coverage-modal"
                 >
-                    Check Previous Test Coverage
+                    Check <p>Previous Test</p> Coverage
                 </button>
             </div>
-            
+            </div>
         </div>
-
     </div>
-    
-</div>
+ 
+<hr>
 
+<div class="hoverable d-flex justify-content-center py-4">
 <div     id="fileDownloadManager"
-         style=" margin:auto; padding-top: 2.5rem; display:none;"
+         style="  display:none;" 
     >
+    
      
             <div class="mr-3" style=" margin:auto">
                 <a class="link-light" href="/download_test_cases" download="test_cases{{session.contractName}}.json">
                 <button class="btn btn-info btn-white">
-                   Download {{session.contractName}} Testcases
+                   {{session.contractName}}
                 </button>
                 </a>
             </div>
@@ -105,120 +232,34 @@
                 </div>
                
             </div>
-       
-    
+
+      
+            
 
 </div>
 
-<div class="container text-center test_textarea" style="margin : auto; text-align:center; margin-top: 5rem;">
+</div>      
+<hr>
+
+<div class="hoverable">
+<div class="container text-center test_textarea py-4" style="margin : auto; text-align:center;">
     <div class="form__group field">
         <textarea name="message" id="test-textarea" class="form__field" value=""></textarea>
         <label for="message" class="form__label">your smart contract code goes here...</label>
     </div>
 </div>
-
-<div id="contractBalance" class="test-text2" style="font-size: medium; margin-top: 1rem; color:aliceblue !important;">
-    
-</div>
-
-<div class="container-props row container-fluid d-flex scaled">
-
-    
-
-    {% set nbQueries = namespace(value=0) %}
-
-    {% for query in abi %}
-    {% if query["type"] == "function" %}
-
-    {% set qID = "qID"~ nbQueries.value %}
-    <div class="rounded-rectangle-functions my-4 " id="{{qID}}">
-
-
-
-        {% for input in query["inputs"] %}
-
-        {% set inpName = input["name"] %}
-        {% set inputlbl =input["type"] ~ " " ~ inpName %}
-
-        <div class="row func-elem-props">
-
-            <div class="input-block mx-auto">
-                {% if "[]" in input['type'] %}
-                <input class="input-box arr" type="text" id="{{inpName}}" name="{{inpName}} " spellcheck="false" required>
-                
-                {% else %}
-                <input class="input-box arr" type="text" id="{{inpName}}" name="{{inpName}} " spellcheck="false" required>
-                {%endif%}
-                <span class="placeholder">
-                    {{inputlbl}}
-                </span>
-            </div>
-
-        </div>
-
-        {% endfor %}
-        {% set btndiv = "btn"~query["name"] %}
-        <script>
-            var container = document.getElementById('{{qID}}');
-        </script>
-        <div class="row func-elem-props" id="{{btndiv}}">
-
-            {% if query["stateMutability"] == "view"%}
-                <script>
-                    container.classList.add("rectangle-view-props");
-                </script>
-            {% set btnColor = "btn btn-info btn-view"%}
-            {% elif query["stateMutability"] == "nonpayable"%}
-                <script>
-                    container.classList.add("rectangle-nonpayable-props");
-                </script>
-            {% set btnColor = "btn btn-warning btn-nonpayable"%}
-            {% elif query["stateMutability btn-payable"] == "payable" %}
-                 <script>
-                    container.classList.add("rectangle-payable-props");
-                 </script>
-            {% set btnColor = "btn btn-danger"%}
-            {% endif%}
-
-            {% set btnID = query["name"]%}
-
-            {% if query["stateMutability btn-payable"] == "payable" %}
-                <button class="{{btnColor}} func-elem-props" type="button" id="{{btnID}}"
-                    onclick="handlePayableFunction('{{qID}}','{{btnID}}','{{btndiv}}')">
-                {{query["name"]}}
-                </button>
-            {% else %}
-            <button class="{{btnColor}} func-elem-props" type="button" id="{{btnID}}"
-                onclick="handleSmartContractFunction('{{qID}}','{{btnID}}','{{btndiv}}')">
-                {{query["name"]}}
-            </button>
-            {%endif%}
-           
-        </div>
-
-
-    </div>
-
-
-
-
-{% set nbQueries.value = nbQueries.value +1 %}
-
-{%endif%}
-{% endfor %}
-
 </div>
 
 
-<div class="container scaled">
-    <div class="form-outline w-100 mb-4">
-        <textarea class="form-control consoleConfig" id="log" rows="10" readonly></textarea>
-        <label class="form-label" for="log">console</label>
-    </div>
-</div>
+
+
+
+
+
+
 
 <!-- test coverage modal -->
-<div class="modal fade bd-example-modal-lg test-coverage-modal"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg test-coverage-modal hoverable"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -252,8 +293,8 @@
 </div>
 
 
-
-
+</section>
+</div>
 <script>
     
     var statementsText,branchesText;
@@ -357,18 +398,21 @@
     
     
 </script>
+
 <script>
 
     
     function handleSmartContractFunction( qID, btnID, btndiv){
-               
+        
         
         var account = document.querySelector("#accountID");
         
+    
         var myDiv = document.getElementById(qID);
+        
         var inputs = myDiv.querySelectorAll("input");
         var resultInputs=[];
-    
+        //alert("here");
         // get the jinja2 abi to work in js
         let abi = '{{ abi | tojson }}';
     
@@ -390,7 +434,7 @@
       
         var i = 0;
         
-        var data = [targetFunc]; // falsk json ajax
+        var data = [targetFunc]; // flask json ajax
         
         data.push({ 'accountIndex' : account.value});
      
@@ -400,7 +444,6 @@
         }
     
         
-    
         $.ajax({
             type: "POST",
             url: "/process_sContract",
@@ -408,6 +451,7 @@
             contentType: "application/json",
             dataType: 'json',
             success: result => {
+                //alert("here");
                 var logElement = document.getElementById("log");
                 if (result["type"] == "transaction"){
                     
@@ -492,13 +536,13 @@
                 if ("contractBalance" in result){
                  
                     var cBalance = document.querySelector("#contractBalance");
-                    cBalance.innerHTML = "Contract Balance: " + result["contractBalance"] + " eth";
+                    cBalance.innerHTML +=  result["contractBalance"] + " eth";
                 }
                  
-    
+                
                 logElement.scrollTop = logElement.scrollHeight;
                 const resultsDiv = document.createElement("div");
-                resultsDiv.setAttribute('id', 'resp'+qID);
+                resultsDiv.setAttribute('id', 'resp'+qID); // qID
                 resultsDiv.classList.add( 'my-2','rectangle','output-props');
                
                 const Container = document.getElementById(btndiv);
@@ -509,7 +553,7 @@
                 }else{
                     myChildElement.innerHTML = "<h6>"+result["return_value"]+"</h6>";
                 }
-             
+                
             } 
         });
     

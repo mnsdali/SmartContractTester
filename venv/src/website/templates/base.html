@@ -25,18 +25,20 @@
   </head>
 
   <body>
+    {% block header %}
     <a href="/" class="logoHyperLinkg">
       <img src="../static/img/cat.png" alt="Logo" class="logo">
     </a>
     <h1 style="text-align: center;font-weight: 400; padding-top: 100px;">
         <span class="test-text">TEST</span>
-        <span style="color:white" class="abcd">YOUR SMART CONTRACT</span>
+        <span class="abcd .text-gradient-dark">YOUR SMART CONTRACT</span>
     </h1>
+    {% endblock %}
     {% block mainContent %}
     <p class="mt-6" style="text-align:center;font-weight: 200; padding-top:40px ">
-        <span style=" color:rgb(89, 94, 104);font-family: 'Source Code Pro', monospace; letter-spacing: 0px " class="abcd ">Let's start by</span>
-        <span class="test-text2 text-gradient-green">importing</span>
-        <span style="color:rgb(89, 94, 104) ;font-family: 'Source Code Pro', monospace;letter-spacing: 0px;" class="abcd ">it</span>
+        <span  class="abcd subtitle">Let's start by</span>
+        <span class="test-text2">importing</span>
+        <span  class="abcd subtitle">it</span>
     </p>
     
     <div class="rounded-rectangle my-4">
@@ -68,7 +70,7 @@
                       </div>
                      <!-- COMPILING BUTTON STARTS -->
                 
-                    <button type="submit" class="mt-4 btn btn-view" name="compileBtn"  id="compileBtn">
+                    <button type="submit" class="mt-4 btn-dark" name="compileBtn"  id="compileBtn">
                         <svg   class="iconBehaviour" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
                             <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
                             <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
@@ -76,7 +78,7 @@
                     </button>
                     <!-- COPILING BUTTON ENDS -->
                     <!-- AUDITING BUTTON STARTS -->
-                    <button  type="button" class="mt-4 btn btn-view" name="auditBtn"  id="auditBtn">
+                    <button  type="button" class="mt-4  btn-dark" name="auditBtn"  id="auditBtn">
                     
                      
                       <svg   class="iconBehaviour" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -103,16 +105,15 @@
     {% block Auditor%}
       <!-- content begin -->
       
-        <section class="almightyGreen" id="auditorContent">
+        <section class="almightyBlack" id="auditorContent">
             <div class="container z-index-1000">
                 <div class="row">
                     <div class="col-md-12 text-center section-title">
                         <h2>Smart Contract Auditor</h2>
                         <div class="space-border"></div>
                     </div>
-                    <div class="col-md-8 offset-md-2 text-center text-light">
-                        <p>An AI-powered Solidity Smart Contract Auditor that uses AI to analyze and audit smart contract code, 
-                            finds errors and vulnerabilities, and provides detailed reports for secure and error-free smart contracts. 
+                    <div class="col-md-8 offset-md-2 text-left text-gradient-dark justified-text" style="margin: auto;">
+                        <p>An AI-powered Solidity Smart Contract Auditor that uses AI to analyze and audit smart contract code, finds errors and vulnerabilities, and provides detailed reports for secure and error-free smart contracts. 
                         
                     </p>
                         <p>Please note that this tool is currently in beta testing and should not be relied upon for official auditing purposes. 
@@ -133,9 +134,9 @@
                                 <div class="row text-center my-3">
                                         
                                     <div class="mx-auto">
-                                            <button id="submit-button" class="btn btn-info btn-view">Audit</button>
+                                            <button id="submit-button" class="btn btn-dark">Audit</button>
                                        
-                                            <button id="clear-button" class="btn btn-outline-light">Clear</button>
+                                            <button id="clear-button" class="btn btn-outline-danger">Clear</button>
                                     </div>
                                  
                                 </div>
